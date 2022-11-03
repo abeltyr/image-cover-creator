@@ -5,6 +5,7 @@ import (
 	"image/draw"
 	"image/jpeg"
 	"image/png"
+	"image/processing/model"
 	"log"
 	"os"
 
@@ -12,8 +13,15 @@ import (
 	"github.com/disintegration/imaging"
 )
 
-func Lg() {
-	image1, err := os.Open("./images/background.jpg")
+func Processing(
+	background string,
+	frame string,
+	mainImage string,
+	result string,
+	selectSize model.SizeDetail,
+) {
+
+	image1, err := os.Open(background)
 	if err != nil {
 		log.Fatalf("failed to open: %s", err)
 	}
@@ -24,38 +32,38 @@ func Lg() {
 	}
 	defer image1.Close()
 
-	image2, err := os.Open("./images/50x80.png")
+	image2, err := os.Open(frame)
 	if err != nil {
 		log.Fatalf("failed to open: %s", err)
 	}
 	secondData, err := png.Decode(image2)
-	second := imaging.Resize(secondData, 1188, 1881, imaging.Lanczos)
+	second := imaging.Resize(secondData, selectSize.FrameSize.X, selectSize.FrameSize.Y, imaging.Lanczos)
 	if err != nil {
 		log.Fatalf("failed to decode: %s", err)
 	}
 	defer image2.Close()
 
-	image3, err := os.Open("image.jpg")
+	image3, err := os.Open(mainImage)
 	if err != nil {
 		log.Fatalf("failed to open: %s", err)
 	}
 	third, err := jpeg.Decode(image3)
 
-	dstImage128 := imaging.Resize(third, 1128, 1806, imaging.Lanczos)
+	dstImage128 := imaging.Resize(third, selectSize.ImageSize.X, selectSize.ImageSize.Y, imaging.Lanczos)
 	if err != nil {
 		log.Fatalf("failed to decode: %s", err)
 	}
 	defer image3.Close()
 
-	offset := image.Pt(1800, 400)
-	offset1 := image.Pt(1830, 440)
+	offset := image.Pt(selectSize.FrameOffset.X, selectSize.FrameOffset.Y)
+	offset1 := image.Pt(selectSize.ImageOffset.X, selectSize.ImageOffset.Y)
 	b := first.Bounds()
 	image4 := image.NewRGBA(b)
-	draw.Draw(image4, b, first, image.ZP, draw.Src)
-	draw.Draw(image4, second.Bounds().Add(offset), second, image.ZP, draw.Over)
-	draw.Draw(image4, second.Bounds().Add(offset1), dstImage128, image.ZP, draw.Over)
+	draw.Draw(image4, b, first, image.Point{}, draw.Src)
+	draw.Draw(image4, second.Bounds().Add(offset), second, image.Point{}, draw.Over)
+	draw.Draw(image4, second.Bounds().Add(offset1), dstImage128, image.Point{}, draw.Over)
 
-	fourth, err := os.Create("result/lgResult.webp")
+	fourth, err := os.Create(result)
 	if err != nil {
 		log.Fatalf("failed to create: %s", err)
 	}
