@@ -1,19 +1,25 @@
 package main
 
 import (
-	"image/processing/utils/processing"
-	"image/processing/utils/s3"
-	"image/processing/utils/size"
+	"image/process/utils/processing"
+	"image/process/utils/s3"
+	"image/process/utils/size"
 	"log"
-	"strings"
 
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/joho/godotenv"
 )
 
-// "image/processing/dataImage"
-// "image/processing/size"
+type MyEvent struct {
+	Id    string `json:"id"`
+	Image string `json:"image"`
+}
 
-func main() {
+type MyResponse struct {
+	Message string `json:"Answer:"`
+}
+
+func HandleLambdaEvent(event MyEvent) (MyResponse, error) {
 
 	err := godotenv.Load(".env")
 
@@ -21,14 +27,13 @@ func main() {
 		log.Fatalf("Error loading .env file")
 	}
 
-	id := "asas-1212"
+	id := event.Id
 
 	background, err := s3.GetFile("Frame/background.jpg")
 	if err != nil {
 		log.Fatalf("failed to open: %s", err)
 	}
-	title := "Frame/image.jpg"
-	res1 := strings.SplitN(title, ".", -1)
+	title := event.Image
 
 	mainImage, err := s3.GetFile(title)
 	if err != nil {
@@ -39,7 +44,6 @@ func main() {
 		id,
 		background,
 		mainImage,
-		res1[len(res1)-1],
 		size.Portrait("xl"),
 	)
 
@@ -47,7 +51,6 @@ func main() {
 		id,
 		background,
 		mainImage,
-		res1[len(res1)-1],
 		size.Portrait("lg"),
 	)
 
@@ -55,7 +58,6 @@ func main() {
 		id,
 		background,
 		mainImage,
-		res1[len(res1)-1],
 		size.Portrait("md"),
 	)
 
@@ -63,13 +65,19 @@ func main() {
 		id,
 		background,
 		mainImage,
-		res1[len(res1)-1],
 		size.Portrait("sm"),
 	)
 
 	processing.Compress(
 		id,
 		mainImage,
-		res1[len(res1)-1],
 	)
+
+	// TODO: setup http request
+
+	return MyResponse{Message: "Done"}, nil
+}
+
+func main() {
+	lambda.Start(HandleLambdaEvent)
 }

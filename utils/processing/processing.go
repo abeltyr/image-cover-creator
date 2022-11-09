@@ -4,10 +4,8 @@ import (
 	"bytes"
 	"image"
 	"image/draw"
-	"image/jpeg"
-	"image/png"
-	"image/processing/model"
-	"image/processing/utils/s3"
+	"image/process/model"
+	"image/process/utils/s3"
 	"log"
 
 	"github.com/chai2010/webp"
@@ -18,14 +16,13 @@ func ImageLayering(
 	id string,
 	background []byte,
 	mainImage []byte,
-	typeData string,
 	selectSize model.SizeDetail,
 ) {
 
 	backgroundReader := bytes.NewReader(background)
 	mainImageReader := bytes.NewReader(mainImage)
 
-	first, err := jpeg.Decode(backgroundReader)
+	first, _, err := image.Decode(backgroundReader)
 	if err != nil {
 		log.Fatalf("failed to decode: %s", err)
 	}
@@ -36,21 +33,13 @@ func ImageLayering(
 	}
 
 	frameReader := bytes.NewReader(frame)
-	secondData, err := png.Decode(frameReader)
+	secondData, _, err := image.Decode(frameReader)
 	if err != nil {
 		log.Fatalf("failed to decode: %s", err)
 	}
 	second := imaging.Resize(secondData, selectSize.FrameSize.X, selectSize.FrameSize.Y, imaging.Lanczos)
 
-	var third image.Image
-
-	if typeData == "jpg" || typeData == "jpeg" {
-		third, err = jpeg.Decode(mainImageReader)
-	}
-
-	if typeData == "png" {
-		third, err = png.Decode(mainImageReader)
-	}
+	third, _, err := image.Decode(mainImageReader)
 
 	if err != nil {
 		log.Fatalf("failed to decode: %s", err)
@@ -68,7 +57,7 @@ func ImageLayering(
 	var da []byte
 	fourth := bytes.NewBuffer(da)
 	final := imaging.Fit(image4, 1400, 1400, imaging.Lanczos)
-	webp.Encode(fourth, final, &webp.Options{Lossless: false, Quality: 75})
+	webp.Encode(fourth, final, &webp.Options{Quality: 75})
 
 	fileBytes := bytes.NewReader(fourth.Bytes())
 	data, err := s3.Upload("Art"+"/"+id+"/"+selectSize.Title+".webp", fileBytes, "public-read")

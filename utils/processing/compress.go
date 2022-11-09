@@ -3,9 +3,7 @@ package processing
 import (
 	"bytes"
 	"image"
-	"image/jpeg"
-	"image/png"
-	"image/processing/utils/s3"
+	"image/process/utils/s3"
 	"log"
 
 	"github.com/chai2010/webp"
@@ -15,7 +13,6 @@ import (
 func Compress(
 	id string,
 	mainImage []byte,
-	typeData string,
 ) {
 
 	mainImageReader := bytes.NewReader(mainImage)
@@ -23,12 +20,7 @@ func Compress(
 	var first image.Image
 	var err error
 
-	if typeData == "jpg" || typeData == "jpeg" {
-		first, err = jpeg.Decode(mainImageReader)
-	}
-	if typeData == "png" {
-		first, err = png.Decode(mainImageReader)
-	}
+	first, _, err = image.Decode(mainImageReader)
 
 	if err != nil {
 		log.Fatalf("failed to decode: %s", err)

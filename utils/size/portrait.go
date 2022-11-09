@@ -1,6 +1,6 @@
 package size
 
-import "image/processing/model"
+import "image/process/model"
 
 func Portrait(data string) model.SizeDetail {
 
