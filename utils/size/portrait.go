@@ -3,13 +3,14 @@ package size
 import "image/processing/model"
 
 func Portrait(data string) model.SizeDetail {
+
 	xlFrameSize := model.SizeData{
-		X: 1475,
+		X: 1490,
 		Y: 2180,
 	}
 	xlImageSize := model.SizeData{
 		X: 1410,
-		Y: 2115,
+		Y: 2100,
 	}
 
 	xlFrameOffset := model.SizeData{
@@ -17,7 +18,7 @@ func Portrait(data string) model.SizeDetail {
 		Y: 60,
 	}
 	xlImageOffset := model.SizeData{
-		X: 1636,
+		X: 1640,
 		Y: 100,
 	}
 
@@ -26,8 +27,8 @@ func Portrait(data string) model.SizeDetail {
 		Y: 1866,
 	}
 	lgImageSize := model.SizeData{
-		X: 1128,
-		Y: 1806,
+		X: 1118,
+		Y: 1786,
 	}
 
 	lgFrameOffset := model.SizeData{
@@ -35,8 +36,8 @@ func Portrait(data string) model.SizeDetail {
 		Y: 400,
 	}
 	lgImageOffset := model.SizeData{
-		X: 1830,
-		Y: 430,
+		X: 1840,
+		Y: 440,
 	}
 
 	mdFrameSize := model.SizeData{
@@ -62,8 +63,8 @@ func Portrait(data string) model.SizeDetail {
 		Y: 964,
 	}
 	smImageSize := model.SizeData{
-		X: 625,
-		Y: 928,
+		X: 615,
+		Y: 924,
 	}
 
 	smFrameOffset := model.SizeData{
@@ -71,12 +72,14 @@ func Portrait(data string) model.SizeDetail {
 		Y: 800,
 	}
 	smImageOffset := model.SizeData{
-		X: 2165,
-		Y: 818,
+		X: 2170,
+		Y: 820,
 	}
 
 	if data == "sm" {
 		return model.SizeDetail{
+			Title:       "30x40",
+			Name:        "Frame/30x40.png",
 			FrameSize:   smFrameSize,
 			ImageSize:   smImageSize,
 			ImageOffset: smImageOffset,
@@ -85,6 +88,8 @@ func Portrait(data string) model.SizeDetail {
 
 	} else if data == "md" {
 		return model.SizeDetail{
+			Title:       "40x60",
+			Name:        "Frame/40x60.png",
 			FrameSize:   mdFrameSize,
 			ImageSize:   mdImageSize,
 			ImageOffset: mdImageOffset,
@@ -92,6 +97,8 @@ func Portrait(data string) model.SizeDetail {
 		}
 	} else if data == "lg" {
 		return model.SizeDetail{
+			Title:       "50x80",
+			Name:        "Frame/50x80.png",
 			FrameSize:   lgFrameSize,
 			ImageSize:   lgImageSize,
 			ImageOffset: lgImageOffset,
@@ -99,6 +106,8 @@ func Portrait(data string) model.SizeDetail {
 		}
 	} else {
 		return model.SizeDetail{
+			Title:       "60x90",
+			Name:        "Frame/60x90.png",
 			FrameSize:   xlFrameSize,
 			ImageSize:   xlImageSize,
 			ImageOffset: xlImageOffset,

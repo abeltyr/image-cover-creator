@@ -6,6 +6,8 @@ type SizeData struct {
 }
 
 type SizeDetail struct {
+	Title       string   `json:"title"`
+	Name        string   `json:"name"`
 	FrameSize   SizeData `json:"frameSize"`
 	ImageSize   SizeData `json:"imageSize"`
 	FrameOffset SizeData `json:"frameOffset"`

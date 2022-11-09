@@ -1,48 +1,75 @@
 package main
 
 import (
-	"image/processing/dataImage"
-	"image/processing/size"
+	"image/processing/utils/processing"
+	"image/processing/utils/s3"
+	"image/processing/utils/size"
+	"log"
+	"strings"
+
+	"github.com/joho/godotenv"
 )
+
+// "image/processing/dataImage"
+// "image/processing/size"
 
 func main() {
 
-	background := "./images/background.jpg"
-	image := "image.jpg"
+	err := godotenv.Load(".env")
 
-	dataImage.Processing(
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+
+	id := "asas-1212"
+
+	background, err := s3.GetFile("Frame/background.jpg")
+	if err != nil {
+		log.Fatalf("failed to open: %s", err)
+	}
+	title := "Frame/image.jpg"
+	res1 := strings.SplitN(title, ".", -1)
+
+	mainImage, err := s3.GetFile(title)
+	if err != nil {
+		log.Fatalf("failed to open: %s", err)
+	}
+	log.Println("downloaded")
+	processing.ImageLayering(
+		id,
 		background,
-		"./images/60x90P.png",
-		image,
-		"result/xlResult.webp",
+		mainImage,
+		res1[len(res1)-1],
 		size.Portrait("xl"),
 	)
 
-	dataImage.Processing(
+	processing.ImageLayering(
+		id,
 		background,
-		"./images/50x80.png",
-		image,
-		"result/lgResult.webp",
+		mainImage,
+		res1[len(res1)-1],
 		size.Portrait("lg"),
 	)
-	dataImage.Processing(
+
+	processing.ImageLayering(
+		id,
 		background,
-		"./images/40x60.png",
-		image,
-		"result/mdResult.webp",
+		mainImage,
+		res1[len(res1)-1],
 		size.Portrait("md"),
 	)
-	dataImage.Processing(
+
+	processing.ImageLayering(
+		id,
 		background,
-		"./images/30x40.png",
-		image,
-		"result/smResult.webp",
+		mainImage,
+		res1[len(res1)-1],
 		size.Portrait("sm"),
 	)
 
-	dataImage.Compress(
-		image,
-		"result/compressed.webp",
-		10,
+	processing.Compress(
+		id,
+		mainImage,
+		res1[len(res1)-1],
 	)
 }

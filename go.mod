@@ -3,12 +3,13 @@ module image/processing
 go 1.19
 
 require (
+	github.com/aws/aws-sdk-go v1.44.133
 	github.com/chai2010/webp v1.1.1
 	github.com/disintegration/imaging v1.6.2
+	github.com/joho/godotenv v1.4.0
 )
 
 require (
-	github.com/aws/aws-sdk-go v1.44.129 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	golang.org/x/image v0.1.0 // indirect
 )
