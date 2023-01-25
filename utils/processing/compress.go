@@ -29,7 +29,7 @@ func Compress(
 	w := bounds.Dx()
 	h := bounds.Dy()
 
-	width := 300
+	width := 400
 	height := width * h / w
 
 	var da []byte

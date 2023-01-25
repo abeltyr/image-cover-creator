@@ -6,13 +6,13 @@ import (
 	"image/process/utils/size"
 	"log"
 
-	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/joho/godotenv"
 )
 
 type MyEvent struct {
-	Id    string `json:"id"`
-	Image string `json:"image"`
+	Id                string `json:"id"`
+	ImageProcessingId string `json:"imageProcessingId"`
+	Image             string `json:"image"`
 }
 
 type MyResponse struct {
@@ -79,5 +79,6 @@ func HandleLambdaEvent(event MyEvent) (MyResponse, error) {
 }
 
 func main() {
-	lambda.Start(HandleLambdaEvent)
+	// lambda.Start(HandleLambdaEvent)
+	HandleLambdaEvent(MyEvent{Id: "a0a61c84-5b98-4b09-bd9b-5eecea24a9a4", ImageProcessingId: "", Image: "ArtWork/leon-lee-spkbavO3a5A.jpg"})
 }
