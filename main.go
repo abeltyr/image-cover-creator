@@ -4,8 +4,10 @@ import (
 	"image/process/utils/processing"
 	"image/process/utils/s3"
 	"image/process/utils/size"
+	"image/process/utils/webhook"
 	"log"
 
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/joho/godotenv"
 )
 
@@ -73,12 +75,12 @@ func HandleLambdaEvent(event MyEvent) (MyResponse, error) {
 		mainImage,
 	)
 
-	// TODO: setup http request
+	webhook.Call(id, event.ImageProcessingId)
 
 	return MyResponse{Message: "Done"}, nil
 }
 
 func main() {
-	// lambda.Start(HandleLambdaEvent)
-	HandleLambdaEvent(MyEvent{Id: "a0a61c84-5b98-4b09-bd9b-5eecea24a9a4", ImageProcessingId: "", Image: "ArtWork/leon-lee-spkbavO3a5A.jpg"})
+	lambda.Start(HandleLambdaEvent)
+	// HandleLambdaEvent(MyEvent{Id: "a0a61c84-5b98-4b09-bd9b-5eecea24a9a4", ImageProcessingId: "1db65f73-e16a-4cad-8551-6feabf0c3c74", Image: "ArtWork/leon-lee-spkbavO3a5A.jpg"})
 }
