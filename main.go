@@ -82,5 +82,5 @@ func HandleLambdaEvent(event MyEvent) (MyResponse, error) {
 
 func main() {
 	lambda.Start(HandleLambdaEvent)
-	// HandleLambdaEvent(MyEvent{Id: "a0a61c84-5b98-4b09-bd9b-5eecea24a9a4", ImageProcessingId: "1db65f73-e16a-4cad-8551-6feabf0c3c74", Image: "ArtWork/leon-lee-spkbavO3a5A.jpg"})
+	// HandleLambdaEvent(MyEvent{Id: "281ff00d-7530-48d9-9070-273cd99aeb02", ImageProcessingId: "a6e9726e-c7b8-4780-ae33-930ed1259dac", Image: "ArtWork/leon-lee-spkbavO3a5A.jpg"})
 }

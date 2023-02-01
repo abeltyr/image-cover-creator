@@ -12,7 +12,7 @@ func GetFile(
 	key string,
 ) ([]byte, error) {
 
-	bucket := os.Getenv("BUCKET")
+	bucket := os.Getenv("AWS_BUCKET")
 
 	s3Client, err := GetS3Client()
 	if err != nil {

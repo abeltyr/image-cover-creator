@@ -11,14 +11,12 @@ import (
 
 func GetS3Client() (*s3.S3, error) {
 
-	key := os.Getenv("SPACE_KEY")
-	secret := os.Getenv("SPACE_SECRET")
-	endPoint := os.Getenv("SPACE_ENDPOINT")
-	location := os.Getenv("SPACE_LOCATION")
+	key := os.Getenv("AWS_ACCESS_KEY_ID")
+	secret := os.Getenv("AWS_SECRET_ACCESS_KEY")
+	location := os.Getenv("AWS_REGION")
 
 	session, _ := session.NewSession(&aws.Config{
 		Credentials:      credentials.NewStaticCredentials(key, secret, ""),
-		Endpoint:         aws.String(endPoint),
 		Region:           aws.String(location),
 		S3ForcePathStyle: aws.Bool(false), //
 	})
