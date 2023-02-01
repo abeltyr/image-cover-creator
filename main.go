@@ -8,7 +8,6 @@ import (
 	"log"
 
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/joho/godotenv"
 )
 
 type MyEvent struct {
@@ -23,11 +22,11 @@ type MyResponse struct {
 
 func HandleLambdaEvent(event MyEvent) (MyResponse, error) {
 
-	err := godotenv.Load(".env")
+	// err := godotenv.Load(".env")
 
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
+	// if err != nil {
+	// 	log.Fatalf("Error loading .env file")
+	// }
 
 	id := event.Id
 
