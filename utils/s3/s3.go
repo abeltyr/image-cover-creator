@@ -1,7 +1,6 @@
 package s3
 
 import (
-	"log"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -15,8 +14,6 @@ func GetS3Client() (*s3.S3, error) {
 	key := os.Getenv("AWS_ACCESS_KEY_DATA")
 	secret := os.Getenv("AWS_SECRET_ACCESS_KEY_DATA")
 	location := os.Getenv("AWS_REGION_DATA")
-
-	log.Println(key, secret, location)
 
 	session, _ := session.NewSession(&aws.Config{
 		Credentials:      credentials.NewStaticCredentials(key, secret, ""),
