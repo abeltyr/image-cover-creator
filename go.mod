@@ -7,7 +7,6 @@ require (
 	github.com/aws/aws-sdk-go v1.44.133
 	github.com/chai2010/webp v1.1.1
 	github.com/disintegration/imaging v1.6.2
-	github.com/joho/godotenv v1.4.0
 )
 
 require (
